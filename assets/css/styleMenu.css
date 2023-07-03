@@ -1,0 +1,257 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
+@font-face {
+  font-family: "Titillium Web";
+  font-style: normal;
+  font-weight: 300;
+  src: local("Titillium WebLight"), local("TitilliumWeb-Light"), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format("woff");
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#menu {
+  position: fixed;
+  display: inline-flex;
+  top: 20vh;
+  left: 0;
+  bottom: auto;
+  height: auto;
+  font-size: 0;
+}
+
+#menu div {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Aquí está el problem !! */
+#menu div.vertical-menu {
+  position: relative;
+  height: auto;
+  overflow: hidden;  
+  display: inline-flex;
+}
+/* Aquí está lo que busco */
+#menu div.vertical-menu nav {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  max-width: 130px;
+  /* height: 100%; */
+  background-color: #fbfbfb;
+  border-right: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  border-top: 1px solid #e5e5e5;
+  overflow: hidden;
+
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-transform: translateZ(0) scale(1, 1);
+  transform: translateZ(0) scale(1, 1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+/* Hace que se despliegue al pasar el ratón */
+/* Cambié hover por focus */
+#menu div.vertical-menu nav:focus, #menu div.vertical-menu nav.open {
+  max-width: 300px;
+}
+
+/* Hace que no se junten los submenus */
+#menu div.vertical-menu nav div.hidden {
+  display: none;
+}
+/* Esto da posicionamiento. Importante */
+#menu div.vertical-menu nav div ul {
+  margin: 7px 0px;
+  outline: 0;
+  padding: 0;
+}
+
+/* Comentado el display para que bajen las opciones */
+#menu div.vertical-menu nav div ul li {
+  position: relative;
+  /* display: block; */
+  background-color: transparent;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+
+  border-bottom: solid 1px #e5e5e5;
+
+}
+
+/* Este es par el ultimo elemento del menú de la izq (rellena el borde inferior con el color del fondo) SOLO si hay dos o más */
+#menu div.vertical-menu  nav.menu-1 div ul li:last-of-type:not(:first-of-type) {
+  border-bottom: solid 1px #fbfbfb;
+
+}
+
+/* Es este solo para el menú de la derecha */
+/* #menu div.vertical-menu  nav.menu-2 div ul li {
+  border-top: solid 1px #e5e5e5;
+
+} */
+
+/* Solo el último elemtno del submenu de la derecha tendrá el borde invisible */
+#menu div.vertical-menu  nav.menu-2 div ul li:last-of-type {
+  border-bottom: solid 1px #fbfbfb;
+
+}
+
+#menu div.vertical-menu nav div ul li:hover, #menu div.vertical-menu nav div ul li.open {
+  background-color: #5cb85c;
+}
+#menu div.vertical-menu nav div ul li:hover a, #menu div.vertical-menu nav div ul li.open a {
+  color: #fff;
+}
+/* #menu div.vertical-menu nav div ul li:hover a .item-notification.active, #menu div.vertical-menu nav div ul li.open a .item-notification.active {
+  color: #fff;
+} */
+#menu div.vertical-menu nav div ul li.active {
+  background-color: #198754;
+}
+#menu div.vertical-menu nav div ul li.active a {
+  color: #fff;
+}
+/* #menu div.vertical-menu nav div ul li.active a .item-notification.active {
+  color: #fff;
+} */
+
+
+#menu div.vertical-menu nav div ul li a {
+  position: relative;
+  display: table;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: rgb(0, 0, 0);
+  font-family: arial;
+  font-size: 14px;
+  text-decoration: none;
+  -webkit-transform: translateZ(0) scale(1, 1);
+  transform: translateZ(0) scale(1, 1);
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+/* Esto es pra los iconos */
+/* #menu div.vertical-menu nav div ul li a .item-icon {
+  position: relative;
+  display: table-cell;
+  min-width: 60px;
+  width: 60px;
+  height: 36px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 20px;
+} */
+
+/* Estos son para la notificación (!). No se usará */
+/* #menu div.vertical-menu nav div ul li a .item-notification {
+  opacity: 0;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+#menu div.vertical-menu nav div ul li a .item-notification.active {
+  opacity: 1;
+  top: 5px;
+  left: 15px;
+  font-size: 15px;
+  color: #ee0000;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+} */
+
+/* Esto controla el texto del menú */
+#menu div.vertical-menu nav div ul li a .item-text {
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+  width: auto;
+  margin-right: 0;
+  padding-right: 1em;
+  padding-left: 1em;
+  font-family: "Titillium Web", sans-serif;
+  /* white-space: nowrap; */
+}
+
+/* De aquí para abajo es para el botón de abrir y cerrar menú */
+#menu .handle {
+  margin-top: -44.78px;
+  position: relative;
+  display: inline-flex;
+  vertical-align: top;
+  /* height: 100%; */
+  -webkit-transform: translateZ(0) scale(1, 1);
+  transform: translateZ(0) scale(1, 1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+#menu .handle div.handle-table {
+  display: table;
+  height: 100%;
+}
+
+#menu .handle div.handle-table div.handle-table-cell {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#menu .handle div.handle-table div.handle-table-cell span.handle-group {
+  position: absolute;
+  cursor: pointer;
+  background-color: #198754;
+  border-top: 1px solid #e5e5e5;
+  border-right: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  -webkit-border-top-right-radius: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -moz-border-radius-bottomright: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  font-size: 16px;
+}
+
+#menu .handle div.handle-table div.handle-table-cell span.handle-group span.handle-function {
+  position: absolute;
+  display: block;
+  padding: 0.65em 0.4em;
+  height: 100%;
+  width: 100%;
+  color: #fff;
+  opacity: 0;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -moz-transform: translate(-2em);
+  -webkit-transform: translate(-2em);
+  -o-transform: translate(-2em);
+  transform: translate(-2em);
+  overflow: none;
+  box-sizing: border-box;
+}
+
+#menu .handle div.handle-table div.handle-table-cell span.handle-group span.handle-function.active {
+  position: relative;
+  opacity: 1;
+  -moz-transform: translate(0em);
+  -webkit-transform: translate(0em);
+  -o-transform: translate(0em);
+  transform: translate(0em);
+}
+
+/* Esto es para el contenido */
+/* #content {
+  position: relative;
+  margin: 0;
+  margin-left: 122px;
+  padding: 0;
+  height: 100vh;
+} */

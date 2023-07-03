@@ -1,0 +1,393 @@
+﻿﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+<!DOCTYPE html>
+
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml">
+
+<head runat="server">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title><%=edicionActiva %></title>
+
+	<!-- Favicon-->
+	<link rel="icon" type="image/x-icon" href="~/assets/favicon.ico" />
+	<!-- DataTables CSS -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/datatables.min.css"/>
+
+	<!-- Theme CSS -->
+	<link href="../css/styles.css" rel="stylesheet" />
+	<!-- Icons Source -->
+	<link href="../fonts/icomoon/style.css" rel="stylesheet" />
+
+	<%-- PNotify CSS --%>
+	<link href="../css/PNotifyBrightTheme.css" rel="stylesheet">
+
+	<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+	<script src="<%=Page.ResolveClientUrl("~/js/jquery-3.6.1.min.js")%>"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	<script src="<%=Page.ResolveClientUrl("~/js/PNotify/PNotify.js")%>"></script>
+	<script src="<%=Page.ResolveClientUrl("~/js/PNotify/PNotifyMobile.js")%>"></script>
+	<asp:ContentPlaceHolder id="head" runat="server">
+	</asp:ContentPlaceHolder>
+	<style>
+		<%-- h2.tituloprincipal:after {
+			display: inline-block;
+			margin: 0 0 8px 20px;
+			height: 3px;
+			content: " ";
+			text-shadow: none;
+			background-color: #999;
+			width: 140px;
+		}
+		h2.tituloprincipal:before {
+			display: inline-block;
+			margin: 0 20px 8px 0;
+			height: 3px;
+			content: " ";
+			text-shadow: none;
+			background-color: #999;
+			width: 140px;
+		} --%>
+
+		@media screen and (max-width:1050px){
+			#spnEdicion {
+				display:none;
+			}
+		}
+	</style>	
+</head>
+
+<body class="sb-nav-fixed">
+	<form id="form1" runat="server">
+		<!-- Logos -->
+		<%-- <img src="<%= Page.ResolveUrl("~")%>assets/img/logoscoloquio.png" alt="coloquio" id="logoscoloquio" style="display:block;margin-left:auto;margin-right:auto;width:70% !important"/> --%>
+		<nav class="sb-topnav navbar navbar-expand navbar-dark bg-secondary">
+			<!-- Sidebar Toggle-->
+			<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 botonMenu" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+			<!-- Navbar Brand-->
+			<a class="navbar-brand ps-3" href="#">Menú </a>
+            <div class="navbar-brand mx-auto">
+                <span id="spnEdicion"><%=edicionActiva %></span>
+            </div>
+			<!-- Navbar Search-->
+			<%--<div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+				<div class="input-group">
+					<%--<input class="form-control" type="text" placeholder="Buscar..." aria-label="Buscar..." aria-describedby="btnNavbarSearch" />
+                        <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+				</div>
+			</div>
+			<!-- Navbar-->
+			<%-- <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-2">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+						<li><a id="btnCambiarRol" class="dropdown-item" href="#!">Cambiar de Rol</a></li>
+					</ul>
+				</li>
+			</ul> --%>
+
+			<ul class="navbar-nav ms-auto ms-md-0 me-lg-4 muestraMenu">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle no-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-gear"></i></a>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+						<li><a class="dropdown-item" href="<%= Page.ResolveUrl("~")%>modulos/perfil.aspx"><i class="fa fa-user" aria-hidden="true"></i> Mis datos</a></li>
+						<%-- <li><a class="dropdown-item" href="#!">Registro de Actividad</a></li> --%>
+						<%=cambiaRol%>
+						<%=RolResp%>
+						<li>
+							<hr class="dropdown-divider" />
+						</li>
+						<li><a class="dropdown-item" href="<%= Page.ResolveUrl("~")%>login/logout.aspx"><i class="fa fa-power-off" aria-hidden="true"></i> Cerrar Sesión</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+
+		<!-- Side Navigation -->
+		<div id="layoutSidenav">
+			<div id="layoutSidenav_nav">
+				<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+					<div class="sb-sidenav-menu">
+						<div class="nav">
+							<!-- Inicio
+                                <div class="sb-sidenav-menu-heading">Panel</div>
+                                <a class="nav-link" href="dashboard.aspx">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                    Estadísticas
+                                </a> -->
+							<%-- <div class="sb-sidenav-menu-heading"></div> --%>
+							<div class="sb-sidenav-footer">
+							<div style="margin-top:12px;margin-bottom:-15px;">Bienvenido,</div>
+							<div id="nomUsu" style="margin-top:12px;margin-bottom:-15px;"><%=nombreUsu%></div>
+							</div>
+							<!-- Módulos -->
+							<div class="sb-sidenav-menu-heading"><%= modulo%></div>
+							<%=menuDisponible%>
+
+							<!-- Opciones en móvil -->
+							<div class="ocultaMenu">
+								<div class="sb-sidenav-menu-heading">Opciones</div>
+
+								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseOpciones" aria-expanded="false" aria-controls="collapseOpciones">
+									<div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div>
+									Cuenta
+									<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+								</a>
+								<div class="collapse" id="collapseOpciones" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+									<nav class="sb-sidenav-menu-nested nav">
+										<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/perfil.aspx">Mis datos</a>
+										<%--<a class="nav-link" href="#">Registro de Actividad</a>--%>
+										<%= cambiaRolMovil%>
+									</nav>
+								</div>
+							</div>
+							<!-- Ponencias -->
+							<%-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePonencias" aria-expanded="false" aria-controls="collapsePonencias">
+								<div class="sb-nav-link-icon"><i class="fa-regular fa-file-lines"></i></div>
+								Ponencias
+								<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							</a>
+							<div class="collapse" id="collapsePonencias" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+								<nav class="sb-sidenav-menu-nested nav">
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/ponencias/ponencias_listar.aspx">Mis Ponencias</a>
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/ponencias/ponencias_registrar.aspx" onclick="nuevaPonencia();">Registrar Ponencia</a>
+									<!-- <asp:HyperLink ID="HyperLink1" CssClass="nav-link" runat="server">Registrar Ponencia</asp:HyperLink> -->
+								</nav>
+							</div> --%>
+							<!-- Evaluación -->
+
+							<%-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseEvaluacion" aria-expanded="false" aria-controls="collapseEvaluacion">
+								<div class="sb-nav-link-icon"><i class="fa-regular fa-clipboard"></i></div>
+								Evaluacion
+								<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							</a>
+							<div class="collapse" id="collapseEvaluacion" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+								<nav class="sb-sidenav-menu-nested nav">
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/evaluacion/ponencias_evaluar.aspx">Ponencias Asignadas</a>
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/evaluacion/ponencias_evaluadas.aspx">Ponencias Evaluadas</a>
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/evaluacion/ponencias_invitacion.aspx">Invitaciones</a>
+								</nav>
+							</div> --%>
+
+							<!-- Reportes -->
+							<%-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReportes" aria-expanded="false" aria-controls="collapseReportes">
+								<div class="sb-nav-link-icon"><i class="fa-regular fa-pen-to-square"></i></div>
+								Reportes
+								<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							</a>
+							<div class="collapse" id="collapseReportes" aria-labelledby="headingThree" data-bs-parent="#sidenavAccordion">
+								<nav class="sb-sidenav-menu-nested nav">
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/reportes/reporte_ponencias.aspx">Reporte de Ponencias</a>
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/reportes/reporte_evaluadores.aspx">Reporte de Evaluadores</a>
+									<%--<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseRepEval" aria-expanded="false" aria-controls="pagesCollapseRepEval">
+                                            Reporte de Evaluaciones
+                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                        </a>
+                                        <div class="collapse" id="pagesCollapseRepEval" aria-labelledby="headingFour" data-bs-parent="#sidenavAccordionPages">
+                                            <nav class="sb-sidenav-menu-nested nav">
+                                                <a class="nav-link" href="reporte_evaluacion1.aspx">Evaluación 1</a>
+                                                <a class="nav-link" href="reporte_evaluacion2.aspx">Evaluación 2</a>
+                                            </nav>
+                                        </div>
+								</nav>
+							</div> --%>
+							<!-- Administrador -->
+							<%-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdmin" aria-expanded="false" aria-controls="collapseAdmin">
+								<div class="sb-nav-link-icon"><i class="fa-regular fa-user"></i></div>
+								Administrador
+								<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							</a>
+							<div class="collapse" id="collapseAdmin" aria-labelledby="headingFive" data-bs-parent="#sidenavAccordion">
+								<nav class="sb-sidenav-menu-nested nav">
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/administrador/ediciones.aspx">Ediciones</a>
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/administrador/modalidades.aspx">Modalidades</a>
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/administrador/temas.aspx">Temas</a>
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/administrador/usuarios.aspx">Usuarios</a>
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/administrador/secciones.aspx">Secciones</a>
+									<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/administrador/parametros.aspx">Parámetros</a>
+									<%--<a class="nav-link" href="crear_ponencia.aspx">Crear Ponencia</a>
+									<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapsePonenciasList" aria-expanded="false" aria-controls="pagesCollapsePonenciasList">
+										Ponencias
+										<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+									</a>
+									<div class="collapse" id="pagesCollapsePonenciasList" aria-labelledby="headingSix" data-bs-parent="#sidenavAccordionPages">
+										<nav class="sb-sidenav-menu-nested nav">
+											<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/ponencias/ponencias_todas.aspx">Todas</a>
+											<a class="nav-link" href="<%= Page.ResolveUrl("~")%>modulos/ponencias/ponencias_clasificadas.aspx">Clasificadas</a>
+										</nav>
+									</div>
+								</nav>
+							</div> --%>
+						</div>
+					</div>
+					<div class="sb-sidenav-footer ocultaMenu">
+						<a class="nav-link logout" href="<%= Page.ResolveUrl("~")%>login/logout.aspx"><i class="fa fa-power-off" aria-hidden="true"></i> Cerrar sesión<i class="fa-solid fa-right-from-bracket float-end"></i></a>
+					</div>
+				</nav>
+			</div>
+
+			<!-- Contenido -->
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid px-4">
+						<br>
+						<%--<h2 class="text-center tituloprincipal"><b><%=edicionActiva %></b></h2>
+						<br />--%>
+						<asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+
+						</asp:ContentPlaceHolder>
+
+					</div>
+				</main>
+				<br>
+
+				<!-- footer -->
+				<footer class="py-4 mt-auto bg-secondary">
+                        <div class="container-fluid px-4">
+                            <div class="align-items-center justify-content-between small">
+                                <span class="text-white">Software desarrollado por la Facultad de Comercio y Administración Victoria.</span>
+                            </div>
+                        </div>
+                    </footer>
+			</div>
+		</div>
+
+		<div class="modal fade bd-modal-del" id="modalRol" tabindex="-1" role="dialog" aria-labelledby="myModalRolLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title h4" id="myModalRolLabel">Cambio de rol</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
+					</div>
+					<div class="modal-body">
+						<p style="font-size: 1.5em;">¿Desea cambiar de rol a <b><%= tipoRol%></b>?</p>
+					</div>
+					<div class="modal-footer">
+						<asp:Button id="btnCambioRol" Text="Confirmar" CssClass="btn btn-primary" runat="server" OnClick="CambiarRol_Click" UseSubmitBehavior="false"/>
+						<%-- <button type="button" id="btnEliminar" class="btn  btn-primary eliminar" style="float: right; margin-left: 5px;">Confirmar</button> --%>
+						<button type="button" class="btn  btn-secondary" data-bs-dismiss="modal" style="float: right;">Cancelar</button>
+					</div>
+				</div>
+			</div>
+    	</div>
+
+		<div class="modal fade bd-modal-del" id="modalRolResp" tabindex="-1" role="dialog" aria-labelledby="myModalRolLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title h4" id="myModalRolLabel2">Responsable de mesa</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
+					</div>
+					<div class="modal-body">
+						<p style="font-size: 1.5em;">¿Desea cambiar a <b> Responsable de mesa</b>?</p>
+					</div>
+					<div class="modal-footer">
+						<asp:Button id="btnCambioRolRes" Text="Confirmar" CssClass="btn btn-primary" runat="server" OnClick="CambiarRolResp_Click" UseSubmitBehavior="false"/>
+						<button type="button" class="btn  btn-secondary" data-bs-dismiss="modal" style="float: right;">Cancelar</button>
+					</div>
+				</div>
+			</div>
+    	</div>
+
+		<div class="modal fade bd-modal-del" id="modalRolResp2" tabindex="-1" role="dialog" aria-labelledby="myModalRolLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title h4" id="myModalRolLabel2">Responsable de mesa</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" ></button>
+					</div>
+					<div class="modal-body">
+						<p style="font-size: 1.5em;">¿Desea cambiar a <b> Responsable de mesa</b>?</p>
+					</div>
+					<div class="modal-footer">
+						<asp:Button id="btnCambioRolRes2" Text="Confirmar" CssClass="btn btn-primary" runat="server" OnClick="CambiarRolResp2_Click" UseSubmitBehavior="false"/>
+						<button type="button" class="btn  btn-secondary" data-bs-dismiss="modal" style="float: right;">Cancelar</button>
+					</div>
+				</div>
+			</div>
+    	</div>
+
+		<%--agregar boton go to top--%>
+
+		<%--<a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+                <i class="bi bi-arrow-up-short"></i>
+
+            </a>--%>
+
+		<script src="<%= Page.ResolveUrl("~")%>js/scripts.js"></script>
+		<script type="text/javascript" src="<%= Page.ResolveUrl("~")%>DataTables/datatables.min.js"></script>
+		<%-- No usar este, esto incluye jquery --%>
+		<%-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/datatables.min.js"></script> --%>
+		<script>
+			function estiloDataTable() {
+				$('#tabla').DataTable({
+					"lengthMenu": [5, 10, 25, 50, 75, 100],
+					"info": false,
+					<%-- <
+					% --"pageLength": leng,
+					-- % > --%>
+					pagingType: 'numbers',
+					"order": [
+						[0, "asc"]
+					],
+					//responsive: true,
+					//scrollY:        200,
+					//deferRender:    true,
+					<%-- <
+					% --scroller: true,
+					-- % >
+					<
+					% --"initComplete": function(oSettings) {
+						var oTable = this;
+						var totalRows = oTable.fnGetData().length; //con esta chulada se pone la página en que se quedo ;)
+						oTable.fnPageChange(page);
+					},
+					-- % > --%>
+					language: {
+						"decimal": ".",
+						"emptyTable": "No existe ningún registro.",
+						"info": "Mostrando del _START_ al _END_ de un total de _TOTAL_ registro(s).",
+						"infoEmpty": "No hay registros.",
+						"infoFiltered": "<br/>(Filtrado de _MAX_ registros en total)",
+						"infoPostFix": "",
+						"thousands": ",",
+						"lengthMenu": "Mostrando _MENU_ registros.",
+						"loadingRecords": "Cargando...",
+						"processing": "Procesando...",
+						"search": "B&uacute;squeda:",
+						"zeroRecords": "No se ha encontrado ningún registro.",
+						paginate: {
+							first: "Primero",
+							previous: "Anterior",
+							next: "Siguiente",
+							last: "Último"
+						},
+					}
+				});
+			};
+
+			function nuevaPonencia() {
+				localStorage.setItem('activePillId', 'pills-1');
+				localStorage.setItem('idActual', 0);
+				localStorage.setItem('estadoRegistro', 0);
+				$.ajax({
+					type: 'POST',
+					url: '../ponencias/ponencias_registrar.aspx/NuevaPonencia',
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					error: function (jqXHR, textStatus, errorThrown) {
+						console.log("Error" + jqXHR.responseText);
+					},
+					success: function () {
+
+					}
+				});
+			};
+
+		</script>
+	</form>
+</body>
+
+</html>
